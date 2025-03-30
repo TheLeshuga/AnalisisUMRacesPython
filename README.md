@@ -76,6 +76,8 @@ Al igual que eliminamos la cadena "(USA)" de 'Event name', ahora quitamos la cad
 df_filtered['Athlete performance'] = df_filtered['Athlete performance'].str.split(' ').str.get(0)
 
 df_filtered = df_filtered.drop(['Year of event', 'Athlete club', 'Athlete country', 'Athlete age category', 'Athlete year of birth'], axis=1)
+
+df_filtered.head(5)
 ```
 
 ![image](https://github.com/user-attachments/assets/946a1279-21f4-4255-8668-d2b5c1eafb86)
