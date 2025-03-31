@@ -144,7 +144,40 @@ df_renamed.head(5)
 
 De esta forma, ya tendríamos finalizado el primer dataset limpio y transformado llamada 'UM_RACES_CLEANED.csv'.
 
-## Exploración de los datos
+## Fase de análisis
+
+### Primer insight
+
+Para comparar las velocidades medias entre hombres y mujeres en los dos tipos de maratón, primero analizamos la distribución de participantes por género y por tipo de maratón. En el conjunto de datos, el 67% de los corredores son hombres y el 33% mujeres. Además, el 18% de las mujeres y el 23% de los hombres han competido en la maratón de 50 millas (50mi). En términos generales, el 78% de los registros corresponden a la maratón de 50km, mientras que el 22% restante pertenecen a la de 50mi.
+
+Esta distribución revela una marcada disparidad tanto en la representación por género como en la cantidad de datos recogidos por tipo de maratón. Aunque esto puede ser esperable, dado que menos personas participan en la maratón de 50 millas y menos mujeres se inscriben en maratones en general, es importante minimizar posibles sesgos de cobertura. En caso de utilizar estos datos para entrenar un modelo predictivo con Machine Learning, sería recomendable aplicar una ponderación que equilibre la representación de género y aumente el peso de los datos de la maratón de 50 millas frente a los de la de 50 km.
+
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/c982d5d0-06d2-440f-ba08-0e9e887b8771" width="450">
+  <img src="https://github.com/user-attachments/assets/497714a4-22ca-4b8a-aa5a-345b065715d2" width="450">
+</p>
+
+Usando un modelo lineal, analizamos ahora la diferencia en las velocidades medias considerando la edad y el género. Las líneas que representan las velocidades medias para cada género siguen una pendiente descendente: comienzan con valores altos y disminuyen progresivamente. Esto es coherente, ya que a menor edad, la estamina y la resistencia física suelen ser mayores, mientras que en edades avanzadas estas capacidades se van empeorando.  
+
+A pesar de esta tendencia, la diferencia entre los valores extremos de edad es de apenas 2 km/h, lo que indica que el impacto en la media no es lo suficientemente significativo como para sesgarla hacia valores extremadamente altos o bajos.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/51d74816-ab4d-4c3d-b388-dc003f82345d" width="450">
+</p>
+
+Agrupando los datos por distancia de maratón y género, calculamos la media y determinamos los valores mínimo y máximo para analizar los extremos y verificar que no introducen sesgos en los datos. Además, generamos otra tabla con la mediana para comparar su diferencia con la media. En todos los casos, la discrepancia entre media y mediana es mínima, de apenas 0.2 km/h, lo que indica que los valores extremos no están influyendo significativamente en los resultados.  
+
+Asimismo, observamos que la diferencia en la velocidad media entre hombres y mujeres es del 9% en la maratón de 50 km, mientras que en la de 50mi es ligeramente menor, con un 6%.  
+
+Esta diferencia es comprensible, ya que participar en una maratón requiere un alto nivel de entrenamiento y capacidad física para completar la carrera. En el caso de la maratón de 50 millas, la exigencia es aún mayor, lo que reduce la brecha de velocidad entre géneros, ya que solo quienes cuentan con la preparación necesaria logran finalizarla, independientemente de su género.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/48e913b2-8f43-49fb-be26-02b333504d08" width="400">
+  <img src="https://github.com/user-attachments/assets/5689a704-4ddb-4772-b7c2-f3e15c5db5f8" width="280">
+</p>
+
+### Segundo insight
 
 
 
