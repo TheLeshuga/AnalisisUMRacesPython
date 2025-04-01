@@ -163,7 +163,7 @@ Usando un modelo lineal, analizamos ahora la diferencia en las velocidades media
 A pesar de esta tendencia, la diferencia entre los valores extremos de edad es de apenas 2 km/h, lo que indica que el impacto en la media no es lo suficientemente significativo como para sesgarla hacia valores extremadamente altos o bajos.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/51d74816-ab4d-4c3d-b388-dc003f82345d" width="450">
+  <img src="https://github.com/user-attachments/assets/51d74816-ab4d-4c3d-b388-dc003f82345d" width="500">
 </p>
 
 Agrupando los datos por distancia de maratón y género, calculamos la media y determinamos los valores mínimo y máximo para analizar los extremos y verificar que no introducen sesgos en los datos. Además, generamos otra tabla con la mediana para comparar su diferencia con la media. En todos los casos, la discrepancia entre media y mediana es mínima, de apenas 0.2 km/h, lo que indica que los valores extremos no están influyendo significativamente en los resultados.  
@@ -177,8 +177,55 @@ Esta diferencia es comprensible, ya que participar en una maratón requiere un a
   <img src="https://github.com/user-attachments/assets/5689a704-4ddb-4772-b7c2-f3e15c5db5f8" width="280">
 </p>
 
+Para completar el análisis de las relaciones y diferencias entre los atletas y el tipo de maratón, generamos un gráfico de violín para visualizar la distribución de los cuartiles. En la maratón de 50km, la diferencia entre géneros es más pronunciada: el 50% de los hombres (Q25 - Q75) mantiene velocidades entre 7 km/h y 8.5 km/h, mientras que en las mujeres este rango se sitúa aproximadamente entre 6.5 km/h y 8 km/h.  
+
+En la maratón de 50 millas, el 50% de los hombres registra velocidades entre 7 km/h y 8 km/h, mientras que en las mujeres el rango es de 6.2 km/h a 7.5 km/h. En ambas distancias, la diferencia de velocidad en el 50% central de los atletas es similar, con una variación de entre 0.5 y 0.8 km/h. Este patrón sugiere que en la maratón de 50km los corredores pueden mantener una velocidad media superior en comparación con la de 50mi, probablemente debido a la menor distancia. En consecuencia, tanto hombres como mujeres muestran velocidades más altas en la maratón de 50km, aunque en el caso de las mujeres la diferencia es menos marcada.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/97debf1b-92e5-48ef-a840-ece083397732" width="500">
+</p>
+
 ### Segundo insight
 
 
 
+### Tercer insight
 
+Para conocer la diferencia de velocidades de los atletas según las estaciones, primero deberemos crear una variable categórica de estación del año. Al tener la fecha del evento, podemos sacar el mes y después asignarle la variable categórica de la estación:
+
+```python
+df_renamed['race_month'] = df_renamed['event_date'].astype(str).str.split('.').str[1].astype(int)
+
+df_renamed['race_season'] = df_renamed['race_month'].apply(lambda x : "Winter" if x > 11 else "Fall" if x > 8 else "Summer" if x > 5 else "Spring" if x > 2 else "Winter")
+
+df_renamed.head(8)
+```
+
+![image](https://github.com/user-attachments/assets/988bfbcd-15c5-4593-8371-f7c25c3c309b)
+
+Generamos un gráfico de violín para visualizar la distribución de las velocidades medias por estación, analizar los cuartiles y comparar de forma clara las estaciones de invierno con verano y primavera con otoño. A simple vista, se observa que otoño e invierno presentan una distribución muy similar, mientras que en verano y primavera el pico de la distribución se inclina hacia valores más bajos. En cuanto a los cuartiles (Q25 - Q75), en la mayoría de las estaciones las velocidades oscilan entre aproximadamente 6 km/h y 8 km/h. Sin embargo, en verano, el rango se desplaza ligeramente hacia valores más bajos, situándose entre 5.4 km/h y 7.7 km/h.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/8f68c2e7-2650-4321-b621-97f29ac5ffdb" width="500">
+</p>
+
+Si analizamos la moda, es decir, el valor de velocidad media más frecuente en cada estación, observamos que los valores más altos corresponden a otoño e invierno, seguidos de primavera y verano. La diferencia entre otoño e invierno es mínima, de apenas 0.4 km/h, mientras que de invierno a primavera aumenta casi a 1 km/h. Estos datos confirman que existe una diferencia en las velocidades medias según la estación, especialmente entre las estaciones cálidas y frías.  
+
+Al observar la media, primavera se posiciona como la estación con la velocidad media más alta, seguida de invierno. De nuevo, se evidencia una notable diferencia entre verano y el resto de estaciones. Aunque la diferencia entre la media de invierno y la de otoño es de apenas 0.1 km/h, entre otoño e verano asciende a 0.6 km/h.  
+
+Además, verano y primavera muestran la mayor discrepancia entre la media y la moda, lo que podría explicarse por la menor cantidad de registros en estas estaciones y una distribución más dispersa con valores más altos que la moda.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/c965d6e7-2696-4497-9bec-12126a445ff6" width="300">
+  <img src="https://github.com/user-attachments/assets/95fddf4a-aab8-4d71-9afe-00b2197ff077" width="270">
+</p>
+
+Para concluir el análisis, examinamos la mediana, diferenciando también por tipo de maratón. En general, las maratones de 50 millas tienden a presentar valores más bajos, al igual que la estación de verano. En cuanto al orden de las estaciones, la mediana y la media siguen el mismo patrón, aunque con valores distintos.  
+
+Uno de los resultados más llamativos es que, en otoño, la mediana de las carreras de 50 millas supera a la de 50 km en la misma estación. Además, la media de la maratón de 50 millas en primavera se sitúa por debajo de la de invierno, lo que resulta inusual.  
+
+Con estos datos, podemos afirmar con seguridad que existe una diferencia en las velocidades medias de los atletas entre verano e invierno, aunque la variación es relativamente pequeña, con una diferencia promedio del 8%. Asimismo, se observa una caída significativa en la participación durante el verano en comparación con el invierno. Estos resultados son coherentes, ya que las altas temperaturas y la exposición al sol pueden generar incomodidad y fatiga, reduciendo tanto el número de corredores como sus velocidades medias. En primavera también se registra una menor participación, pero al tratarse de un clima más templado, el rendimiento de los atletas no se ve tan afectado.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/c32f2a82-be38-4638-8b5f-8ac445a0ef76" width="500">
+</p>
