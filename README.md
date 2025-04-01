@@ -227,5 +227,5 @@ Uno de los resultados más llamativos es que, en otoño, la mediana de las carre
 Con estos datos, podemos afirmar con seguridad que existe una diferencia en las velocidades medias de los atletas entre verano e invierno, aunque la variación es relativamente pequeña, con una diferencia promedio del 8%. Asimismo, se observa una caída significativa en la participación durante el verano en comparación con el invierno. Estos resultados son coherentes, ya que las altas temperaturas y la exposición al sol pueden generar incomodidad y fatiga, reduciendo tanto el número de corredores como sus velocidades medias. En primavera también se registra una menor participación, pero al tratarse de un clima más templado, el rendimiento de los atletas no se ve tan afectado.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/c32f2a82-be38-4638-8b5f-8ac445a0ef76" width="500">
+  <img src="https://github.com/user-attachments/assets/c32f2a82-be38-4638-8b5f-8ac445a0ef76" width="300">
 </p>
