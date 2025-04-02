@@ -187,6 +187,38 @@ En la maratón de 50 millas, el 50% de los hombres registra velocidades entre 7 
 
 ### Segundo insight
 
+A través de un gráfico de distribución, analizamos la frecuencia de participación en las maratones según la edad. Tanto la media como la mediana se sitúan entre 41 y 42 años, lo que indica que los datos no presentan un desequilibrio significativo. Al añadir los cuartiles Q25 y Q75, observamos que el 50% de los atletas tienen entre 34 y 59 años. Agrupando por rangos de edad, se confirma que la mayor concentración de corredores se encuentra dentro de este intervalo.  
+
+Además, existe una diferencia del 20% entre estos grupos y los rangos adyacentes (20-30 años y 53-63 años). Llama la atención que, en particular, el grupo de 25 a 30 años muestra una menor representación, lo que sugiere la posible existencia de un sesgo de cobertura para este segmento de edad.
+
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/0ba74f6a-f866-4eba-a902-ec236a523eac" width="500">
+  <img src="https://github.com/user-attachments/assets/c166ac4d-5ccb-4bf1-aa42-df370ba7a5c0" width="500">
+</p>
+
+Para responder a la pregunta, realizamos una consulta filtrando los datos para incluir únicamente participantes mayores de 19 años en la carrera de 50 millas y agrupamos por edad para analizar la velocidad media. En los primeros cinco puestos, las edades oscilan entre los 23 y los 30 años, con los corredores de 29 años registrando la mayor velocidad. Aunque todos cuentan con un número de muestras razonable, la de 23 años es la menos representativa. No obstante, a partir de 30 muestras, los datos pueden considerarse algo fiables.  
+
+En los siguientes diez puestos, el rango predominante va de los 26 a los 38 años, con algunas edades fuera de este intervalo. Dentro de este grupo encontramos edades con mayor participación, pero, curiosamente, las más rápidas se ubican en la parte inferior del cuartil Q25.  
+
+Aunque podría sorprender que la edad más veloz no se encuentre entre los 20 y 25 años, estos resultados sugieren que en este rango hay menos participantes y, posiblemente, menor preparación en comparación con los corredores aficionados de entre 34 y 59 años. Si bien la juventud es un factor a considerar, la mayor presencia de atletas en edades superiores a los 25 años, junto con una mejor preparación física, podría explicar el incremento de la velocidad media en estos grupos.
+
+En la carrera de 50 millas, las edades con los peores tiempos se encuentran en el rango de 58 a 63 años, con los corredores de 60 años registrando la velocidad más baja, aunque la diferencia con el segundo peor resultado es mínima. Sin embargo, debido al reducido número de muestras en este grupo, la fiabilidad de estos datos es menor. Resulta llamativo que no aparezcan edades aún más avanzadas, como aquellas entre 70 y 80 años. Una posible explicación es que no haya atletas de este rango de edad que hayan participado en maratones de 50 millas. Para comprobarlo, generamos un gráfico de distribución de edades considerando únicamente a los corredores de este tipo de maratón.  
+
+Los resultados confirman que existen atletas en ese rango de edad, pero su participación es tan baja que sus registros están sesgados hacia velocidades más altas. Esto tiene sentido, ya que las personas de edad avanzada que se inscriben en una carrera tan exigente probablemente cuentan con una condición física superior que les permite completarla.
+
+```python
+df_renamed.query('race_distance == "50mi"').groupby('athlete_age')['athlete_avg_speed'].agg(['mean', 'count']).sort_values('mean', ascending=False).query('count > 19').head(15)
+```
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/dcc560d8-46b9-4960-9f91-5d28d00175b1" width="200">
+  <img src="https://github.com/user-attachments/assets/398ea16f-593d-44b7-aed2-baee342ff340" width="200">
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/37c3b08f-c51b-4311-96aa-3453caed9d58" width="500">
+</p>
 
 
 ### Tercer insight
@@ -229,3 +261,47 @@ Con estos datos, podemos afirmar con seguridad que existe una diferencia en las 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/c32f2a82-be38-4638-8b5f-8ac445a0ef76" width="300">
 </p>
+
+### Cuarto insight
+
+Para seguir explorando el dataset, analizamos las correlaciones incluyendo los nuevos campos y los datos transformados. Para ello, primero convertimos las variables categóricas en indicadoras. Además, eliminamos columnas como el nombre del evento, la fecha del evento y el mes de la carrera, ya que la estación del año proporciona suficiente información al respecto. Finalmente, conservamos únicamente las variables numéricas y las categóricas transformadas en indicadoras para un análisis más preciso.
+
+```python
+aux = pd.get_dummies(df_renamed[['athlete_gender', 'race_distance', 'race_season']])
+aux1 = df_renamed.drop(columns=['athlete_gender', 'race_distance', 'athlete_ID', 'race_month', 'race_season'])
+df_corr = pd.concat([aux1, aux], axis=1)
+
+matriz_correlacion = df_corr.corr(numeric_only=True)
+
+sns.heatmap(matriz_correlacion, annot=True, cmap='coolwarm', fmt='.2f')
+plt.title('Matriz de correlación')
+plt.show()
+```
+
+Nos enfocamos en las correlaciones superiores a 0.2 y en las correlaciones inversas menores de -0.2. En las variables categóricas binarias 'race_distance' y 'athlete_gender', observamos una correlación inversa de -1, lo cual es esperable, ya que si un valor no está presente, necesariamente lo estará el otro el 100% de las veces.
+
+Además, identificamos una correlación inversa de -0.2 entre 'athlete_avg_speed' y 'athlete_age', lo que indica una relación entre el aumento de la edad y la disminución de la velocidad media, aunque no de manera perfecta. De hecho, esta correlación es relativamente baja. La gráfica lineal de edad y velocidad ya sugería una ligera disminución con la edad, pero sin una relación completamente definida. Asimismo, la tabla de las edades con mejor y peor velocidad refuerza esta observación.
+
+En la esquina inferior derecha del heatmap, se observa un recuadro azul correspondiente a las variables de las estaciones del año. Como ocurre con el género y la distancia de la carrera, estas variables también presentan correlaciones inversas significativas, ya que son mutuamente excluyentes. En particular, destaca una fuerte correlación inversa entre invierno y otoño, esto es porque la mayoría de las carreras registradas ocurrieron en estas dos estaciones, así que se excluyen mutuamente.
+
+Por último, aunque no entra dentro del rango establecido, vale la pena mencionar la correlación entre 'race_number_finishers' y la estación de primavera, con un valor de 0.19. Aunque bajo, este es el valor de correlación más alto entre 'race_number_finishers' y cualquier estación. Esto sugiere que, en primavera, hay una ligera tendencia a que más corredores finalicen la maratón, aunque la correlación es débil y posiblemente no sea un patrón significativo.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/4b81961d-d84a-42b5-aa03-038a2ffad61b" width="500">
+</p>
+
+
+### Quinto insight
+
+Analizamos la cantidad de corredores que finalizan una maratón según la estación del año. Al observar la distribución general, encontramos que la mayoría de las maratones tienen entre 30 y 140 finalistas. Sin embargo, existen valores excepcionales, con picos en 570 y 630 corredores, registrados en primavera y otoño, respectivamente.  
+
+El invierno destaca por presentar la mayor diversidad en cuanto al número de corredores que terminan la carrera, con una distribución más dispersa y valores atípicos que se alejan del patrón binomial observado en otras estaciones. Algunas maratones invernales registran entre 160 y 370 finalistas, esto tiene sentido por los datos explorados anteriormente del número de participantes en estaciones frías.  
+
+En términos generales, todas las estaciones siguen una distribución similar, con un pico de mayor frecuencia entre 40 y 60 finalistas. La forma de la distribución es cercana a una binomial, aunque con un segundo repunte en valores más altos. En cuanto a la estación de primavera, aunque se identificó una correlación con el número de finalistas (0.19), la cantidad de datos disponibles es reducida, lo que dificulta la obtención de una forma definida en la distribución. En este caso, la baja frecuencia de carreras con 30 a 140 finalistas y la presencia de picos en valores más altos explican por qué la correlación, aunque presente, no es particularmente fuerte.
+
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/ee307a9c-0bd9-486c-912a-39ac5caf7c2c" width="500">
+</p>
+
+Para obtener conclusiones más precisas, sería necesario contar con un mayor volumen de datos. También habría sido útil disponer del número total de participantes para compararlo con la cantidad de corredores que finalizan la maratón. En el script de Python se incluyen otras visualizaciones que permiten analizar los datos desde diferentes perspectivas, así como observaciones adicionales que, debido a la falta de datos, no se han explorado en detalle pero que podrían haber resultado interesantes.
