@@ -19,6 +19,18 @@ El dataset usado en el proyecto se encuentra público en la página kaggle: http
 
 ## Conclusiones generales
 
+- Hay una **disparidad grande entre datos de atletas mujeres y hombres** que pueden alterar la veracidad del resultado, supondría una posible ponderación para reducir el **sesgo de cobertura**.
+- La velocidad media entre hombres y mujeres es del **9% en la maratón de 50 km**, mientras que **en la de 50mi** es ligeramente menor, con **un 6%**. En ambos tipos de carreras los hombres tiene una media superior, lo cual se alinea con las condiciones físicas superiores de los hombres.
+- El **50% de los atletas hombres en la carrera de 50km** mantiene velocidades entre **7 km/h y 8.5 km/h** y en la de **50mi entre 7 km/h y 8 km/h**. **Las mujeres** por otro lado, se sitúan aproximadamente entre **6.5 km/h y 8 km/h y 6.2 km/h a 7.5 km/h respectivamente**. Habiendo solo una diferencia entre 0.5-0.8km/h entre hombresy mujeres.
+- El **50% de todos los atletas tiene entre 34 y 49 años**. Además, existe una **diferencia del 20%** entre este grupo **y los rangos adyacentes (20-30 años y 53-63 años)**. Podría existir un ligero **sesgo de cobertura en el rango de edad de 25 años a 30 años**.
+- Los **corredores más rápidos en las carreras de 50mi van desde 23 a 30 años, siendo el de 29 años el más rápido**. **Las edades con los peores tiempos se encuentran en el rango de 58 a 63 años**, con los corredores de **60 años registrando la velocidad más baja**.
+- **Existe una diferencia en las velocidades medias de los atletas entre verano e invierno**, aunque la variación es relativamente pequeña, con una **diferencia promedio del 8%**. Asimismo, se observa una **caída significativa en la participación durante el verano** en comparación con el invierno.
+- **La estación de verano y primavera muestran la mayor discrepancia entre la media y la moda**, lo que podría explicarse por la menor cantidad de registros en estas estaciones y una distribución más dispersa con valores más altos que la moda.
+- **Existe una correlación inversa de -0.2 entre la edad y la velocidad media**, lo que indica una ligera disminución del rendimiento con la edad, **aunque sin una relación completamente definida**. A mayor edad menores condiciones físicas, pero en este tipo de deporte se quiere de cualidades superiores en general.
+- **Las estaciones del año presentan correlaciones inversas significativas**, ya que son mutuamente excluyentes. **En particular, invierno y otoño muestran una fuerte correlación inversa**, lo que se explica por la alta concentración de carreras registradas en estas estaciones.
+- **La mayoría de las maratones tienen entre 30 y 140 finalistas**, aunque en primavera y otoño se registran valores excepcionales de hasta 630 corredores. **El invierno presenta la mayor diversidad en número de finalistas**, con una distribución más dispersa y valores atípicos entre 160 y 370 corredores. **Tienen cierta distribución binomial** que se alza en valores altos.
+- Para profundizar en columnas como los finalistas o el evento, sería útil incluir el número de corredores iniciales entre otros datos. **Se ha generado un dataset final para Machine Learning**, adecuado para algoritmos predictivos y para realizar ponderaciones basadas en los datos analizados.
+
 ## Trabajo realizado
 
 ### Carga de datos y perfil de datos
@@ -187,7 +199,7 @@ En la maratón de 50 millas, el 50% de los hombres registra velocidades entre 7 
 
 ### Segundo insight
 
-A través de un gráfico de distribución, analizamos la frecuencia de participación en las maratones según la edad. Tanto la media como la mediana se sitúan entre 41 y 42 años, lo que indica que los datos no presentan un desequilibrio significativo. Al añadir los cuartiles Q25 y Q75, observamos que el 50% de los atletas tienen entre 34 y 59 años. Agrupando por rangos de edad, se confirma que la mayor concentración de corredores se encuentra dentro de este intervalo.  
+A través de un gráfico de distribución, analizamos la frecuencia de participación en las maratones según la edad. Tanto la media como la mediana se sitúan entre 41 y 42 años, lo que indica que los datos no presentan un desequilibrio significativo. Al añadir los cuartiles Q25 y Q75, observamos que el 50% de los atletas tienen entre 34 y 49 años. Agrupando por rangos de edad, se confirma que la mayor concentración de corredores se encuentra dentro de este intervalo.  
 
 Además, existe una diferencia del 20% entre estos grupos y los rangos adyacentes (20-30 años y 53-63 años). Llama la atención que, en particular, el grupo de 25 a 30 años muestra una menor representación, lo que sugiere la posible existencia de un sesgo de cobertura para este segmento de edad.
 
@@ -201,7 +213,7 @@ Para responder a la pregunta, realizamos una consulta filtrando los datos para i
 
 En los siguientes diez puestos, el rango predominante va de los 26 a los 38 años, con algunas edades fuera de este intervalo. Dentro de este grupo encontramos edades con mayor participación, pero, curiosamente, las más rápidas se ubican en la parte inferior del cuartil Q25.  
 
-Aunque podría sorprender que la edad más veloz no se encuentre entre los 20 y 25 años, estos resultados sugieren que en este rango hay menos participantes y, posiblemente, menor preparación en comparación con los corredores aficionados de entre 34 y 59 años. Si bien la juventud es un factor a considerar, la mayor presencia de atletas en edades superiores a los 25 años, junto con una mejor preparación física, podría explicar el incremento de la velocidad media en estos grupos.
+Aunque podría sorprender que la edad más veloz no se encuentre entre los 20 y 25 años, estos resultados sugieren que en este rango hay menos participantes y, posiblemente, menor preparación en comparación con los corredores aficionados de entre 34 y 49 años. Si bien la juventud es un factor a considerar, la mayor presencia de atletas en edades superiores a los 25 años, junto con una mejor preparación física, podría explicar el incremento de la velocidad media en estos grupos.
 
 En la carrera de 50 millas, las edades con los peores tiempos se encuentran en el rango de 58 a 63 años, con los corredores de 60 años registrando la velocidad más baja, aunque la diferencia con el segundo peor resultado es mínima. Sin embargo, debido al reducido número de muestras en este grupo, la fiabilidad de estos datos es menor. Resulta llamativo que no aparezcan edades aún más avanzadas, como aquellas entre 70 y 80 años. Una posible explicación es que no haya atletas de este rango de edad que hayan participado en maratones de 50 millas. Para comprobarlo, generamos un gráfico de distribución de edades considerando únicamente a los corredores de este tipo de maratón.  
 
