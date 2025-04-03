@@ -154,7 +154,7 @@ df_renamed.head(5)
 
 ![image](https://github.com/user-attachments/assets/75a56d7b-2f53-4eef-88fa-8c462cce155c)
 
-De esta forma, ya tendríamos finalizado el primer dataset limpio y transformado llamada 'UM_RACES_CLEANED.csv'.
+De esta forma, ya tendríamos finalizado el primer dataset limpio y transformado llamada 'UM_RACES_CLEANED.csv'. Más adelante se genera otro dataset transformando columnas categóricas en indicadoras y con la eliminación de otras columnas tenemos 'UM_RACES_CORR.csv' para algortimos de Machine Learning.
 
 ## Fase de análisis
 
